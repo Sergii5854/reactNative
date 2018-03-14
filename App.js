@@ -1,26 +1,18 @@
+
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
-import Layout from './src/components/layout/index';
+import HomeScreen from './src/components/layout/index';
+import Login from './src/components/login/index';
+// import Register from './app/components/register';
+// import Facebook from './app/components/facebook';
+// import Chat from './app/components/chat';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
 
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    );
-  }
-}
+const UsersManager = StackNavigator({
+    Home: { screen: HomeScreen },
+    Login: { screen: Login },
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+})
+
+export default UsersManager;
