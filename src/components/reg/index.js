@@ -23,25 +23,25 @@ export default class register extends Component {
         super(props)
         this.state={
             user: [],
-            userName:'',
+            name:'',
             userEmail:'',
             userPassword:''
         }
     }
 
     componentDidMount() {
-        axios.get('https://react-native-login-register.herokuapp.com/api/v1/user')
+        axios.get('https://react-native-chat.herokuapp.com/api/users')
             .then(response => this.setState({user: response.data.user}))
     }
 
     userRegister = () => {
-        const {userName} = this.state;
+        const {name} = this.state;
         const {userEmail} = this.state;
         const {userPassword} = this.state;
 
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
-        if (userName === "") {
-            this.setState({message:'Please enter userName'})
+        if (name === "") {
+            this.setState({message:'Please enter name'})
         } else if(userEmail === "") {
             this.setState({message:'Please enter Email address'})
         } else if(reg.test(userEmail) === false) {
@@ -51,11 +51,11 @@ export default class register extends Component {
             this.setState({message:'Please enter password'})
         }
 
-        axios.post(`https://react-native-login-register.herokuapp.com/api/v1/user`, {
+        axios.post(`https://react-native-chat.herokuapp.com/api/users`, {
             user: {
                 email: this.state.userEmail,
                 password: this.state.userPassword,
-                username: this.state.userName,
+                name: this.state.name,
             }
         })
             .then((response) => {
@@ -63,7 +63,7 @@ export default class register extends Component {
 
                 this.setState({
                     user: response.data.user,
-                    userName: '',
+                    name: '',
                     userEmail: '',
                     userPassword: ''
                 })
@@ -84,11 +84,11 @@ export default class register extends Component {
                 <Text style={{padding:10,margin:10,color:'red'}}>{this.state.message}</Text>
 
                 <TextInput
-                    value={this.state.userName}
+                    value={this.state.name}
                     placeholder="Enter Name"
                     style={{width:250,margin:10, borderColor:"#333", borderWidth:1}}
                     underlineColorAndroid="transparent"
-                    onChangeText= {userName => this.setState({userName})}
+                    onChangeText= {name => this.setState({name})}
                 />
 
                 <TextInput

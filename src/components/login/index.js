@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import axios from 'axios'
 import {
     StyleSheet,
@@ -19,7 +19,7 @@ export default class Login extends Component {
             </TouchableOpacity>
     });
 
-    constructor (props) {
+    constructor(props) {
         super(props)
         this.state = {
             user: [],
@@ -29,9 +29,9 @@ export default class Login extends Component {
         }
     }
 
-    componentDidMount () {
-        axios.get('https://react-native-login-register.herokuapp.com/api/v1/user')
-            .then(response => this.setState({user: response.data.user}))
+    componentDidMount() {
+        axios.get('https://react-native-chat.herokuapp.com/api/users')
+            .then(response => this.setState({user: response.data.events}))
     }
 
     login = () => {
@@ -47,26 +47,28 @@ export default class Login extends Component {
             this.setState({message: 'Please enter password'})
         }
 
-        this.state.user.forEach((data)=>{
-           // alert(JSON.stringify( data))
-            if(data.email === this.state.userEmail) {
+        this.state.user.forEach((data) => {
+             // alert(JSON.stringify( data));
+            if (data.email === this.state.userEmail) {
                 alert(data.email === this.state.userEmail, data.password, this.state.userPassword)
+
+
                 if (data.email === this.state.userEmail && data.password === this.state.userPassword) {
                     const {navigate} = this.props.navigation;
                     this.setState({redirect: "Chat"});
                     this.props.navigation.navigate('Chat')
-                }else{
+                } else {
                     alert("Incorrect email address or password. please try again");
                     this.setState({redirect: "Login"});
                 }
-             } else {
+            } else {
                 this.setState({redirect: "Register"});
                 this.props.navigation.navigate('Register')
             }
         })
     };
 
-    render () {
+    render() {
         const {navigate} = this.props.navigation;
 
         return (
@@ -110,8 +112,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
     btnText: {
-        color:'#000',
+        color: '#000',
         fontSize: 20,
-        fontWeight:'bold'
+        fontWeight: 'bold'
     }
 });
