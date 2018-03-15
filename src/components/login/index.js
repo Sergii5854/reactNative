@@ -48,12 +48,18 @@ export default class Login extends Component {
         }
 
         this.state.user.forEach((data)=>{
-            alert(data.email === this.state.userEmail,data.email , this.state.userEmail)
+           // alert(JSON.stringify( data))
             if(data.email === this.state.userEmail) {
-                const {navigate} = this.props.navigation;
-                this.setState({redirect: "Chat"});
-                this.props.navigation.navigate('Chat')
-            } else {
+                alert(data.email === this.state.userEmail, data.password, this.state.userPassword)
+                if (data.email === this.state.userEmail && data.password === this.state.userPassword) {
+                    const {navigate} = this.props.navigation;
+                    this.setState({redirect: "Chat"});
+                    this.props.navigation.navigate('Chat')
+                }else{
+                    alert("Incorrect email address or password. please try again");
+                    this.setState({redirect: "Login"});
+                }
+             } else {
                 this.setState({redirect: "Register"});
                 this.props.navigation.navigate('Register')
             }
@@ -90,10 +96,6 @@ export default class Login extends Component {
                     <Text style={{color: 'white'}}>Login</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity
-                    onPress={()=> navigate(this.state.redirect)}>
-                    <Text style={styles.btnText}>{this.state.redirect}</Text>
-                </TouchableOpacity>
 
             </View>
         )
