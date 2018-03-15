@@ -34,6 +34,25 @@ export default class Login extends Component {
             .then(response => this.setState({user: response.data.events}))
     }
 
+    atob = (input) => {
+        let str = input.replace(/=+$/, '');
+        let output = '';
+
+        if (str.length % 4 == 1) {
+            throw new Error("'atob' failed: The string to be decoded is not correctly encoded.");
+        }
+        for (let bc = 0, bs = 0, buffer, i = 0;
+             buffer = str.charAt(i++);
+
+             ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
+             bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0
+        ) {
+            buffer = chars.indexOf(buffer);
+        }
+
+        return output;
+    }
+
     login = () => {
         const {userEmail, userPassword} = this.state
 
@@ -48,12 +67,13 @@ export default class Login extends Component {
         }
 
         this.state.user.forEach((data) => {
-             // alert(JSON.stringify( data));
+            // alert(JSON.stringify( data));
             if (data.email === this.state.userEmail) {
-                alert(data.email === this.state.userEmail, data.password, this.state.userPassword)
+                var pass = atob(data.password)
+                alert(data.email === this.state.userEmail, "pass", pass, this.state.userPassword)
 
 
-                if (data.email === this.state.userEmail && data.password === this.state.userPassword) {
+                if (data.email === this.state.userEmail) {
                     const {navigate} = this.props.navigation;
                     this.setState({redirect: "Chat"});
                     this.props.navigation.navigate('Chat')
