@@ -68,11 +68,11 @@ export default class register extends Component {
                     userPassword: ''
                 })
             })
-        // .catch((error)=>{
-        //   console.log(44, error)
-        // })
+        .catch((error)=>{
+          console.log("my reg err is : ", error)
+        });
         const {navigate} = this.props.navigation;
-        alert(`Hello ${this.state.userName}, please go to the LOGIN tab`);
+        this.props.navigation.navigate('Chat')
         this.setState({redirect: "Login"})
     }
 
@@ -113,10 +113,6 @@ export default class register extends Component {
                     <Text style={{color:'#fff'}}>Signup</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity
-                    onPress={()=> navigate(this.state.redirect)}>
-                    <Text style={styles.btnText}>{this.state.redirect}</Text>
-                </TouchableOpacity>
             </View>
         );
     }

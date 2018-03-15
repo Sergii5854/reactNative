@@ -8,7 +8,7 @@ import {
     TextInput
 } from 'react-native'
 
-export default class login extends Component {
+export default class Login extends Component {
     static navigationOptions = ({navigation}) => ({
         title: 'Login',
         headerRight:
@@ -48,16 +48,17 @@ export default class login extends Component {
         }
 
         this.state.user.forEach((data)=>{
+            alert(data.email === this.state.userEmail,data.email , this.state.userEmail)
             if(data.email === this.state.userEmail) {
                 const {navigate} = this.props.navigation;
-                alert(`Hello ${this.state.userEmail}, please go to the CHAT tab`);
-                this.setState({redirect: "Chat"})
+                this.setState({redirect: "Chat"});
+                this.props.navigation.navigate('Chat')
             } else {
-                alert(`Hello, please go to the REGISTER tab`);
-                this.setState({redirect: "Register"})
+                this.setState({redirect: "Register"});
+                this.props.navigation.navigate('Register')
             }
         })
-    }
+    };
 
     render () {
         const {navigate} = this.props.navigation;
