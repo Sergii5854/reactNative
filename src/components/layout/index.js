@@ -63,18 +63,21 @@ const styles = StyleSheet.create({
         backgroundColor:'orange',
         padding:20,
         margin:10,
+        borderRadius:5,
         width:'95%'
     },
     btn2:{
         backgroundColor:'green',
         padding:20,
         margin:10,
+        borderRadius:5,
         width:'95%'
     },
     btn3:{
         backgroundColor:'blue',
         padding:20,
         margin:10,
+        borderRadius:5,
         width:'95%'
     },
     pageName:{
@@ -86,6 +89,8 @@ const styles = StyleSheet.create({
     },
     btnText:{
         color:'#fff',
-        fontWeight:'bold'
+        fontWeight:'bold',
+
+        textAlign: 'center'
     },
 });

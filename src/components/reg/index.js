@@ -86,7 +86,7 @@ export default class register extends Component {
                 <TextInput
                     value={this.state.name}
                     placeholder="Enter Name"
-                    style={{width:250,margin:10, borderColor:"#333", borderWidth:1}}
+                    style={styles.textInput}
                     underlineColorAndroid="transparent"
                     onChangeText= {name => this.setState({name})}
                 />
@@ -94,7 +94,8 @@ export default class register extends Component {
                 <TextInput
                     value={this.state.userEmail}
                     placeholder="Enter Email"
-                    style={{width:250,margin:10, borderColor:"#333", borderWidth:1}}
+                    style={styles.textInput}
+
                     underlineColorAndroid="transparent"
                     onChangeText= {userEmail => this.setState({userEmail})}
                 />
@@ -102,14 +103,14 @@ export default class register extends Component {
                 <TextInput
                     value={this.state.userPassword}
                     placeholder="Enter Password"
-                    style={{width:250,margin:10, borderColor:"#333", borderWidth:1}}
+                    style={styles.textInput}
                     underlineColorAndroid="transparent"
                     onChangeText= {userPassword => this.setState({userPassword})}
                 />
 
                 <TouchableOpacity
                     onPress={this.userRegister}
-                    style={{width:250,padding:10, backgroundColor:'green', alignItems:'center'}}>
+                    style={{width:250,padding:10, backgroundColor:'green', alignItems:'center',  borderRadius:5}}>
                     <Text style={{color:'#fff'}}>Signup</Text>
                 </TouchableOpacity>
 
@@ -135,9 +136,18 @@ const styles = StyleSheet.create({
         color: '#333333',
         marginBottom: 5,
     },
+    textInput:{
+        width:250,
+        margin:10,
+        borderColor:"#333",
+        borderWidth:1,
+        padding:10,
+        borderRadius:5
+    },
     btnText: {
         color:'#000',
         fontSize: 20,
-        fontWeight:'bold'
+        fontWeight:'bold',
+        borderRadius:5
     }
 });

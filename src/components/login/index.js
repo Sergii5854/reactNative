@@ -25,35 +25,29 @@ export default class Login extends Component {
             user: [],
             userEmail: '',
             userPassword: '',
-            redirect: ''
+            registerUser: '',
+            registered: false
         }
+        this.checkLogin = this.checkLogin.bind(this)
     }
 
     componentDidMount() {
         axios.get('https://react-native-chat.herokuapp.com/api/users')
             .then(response => this.setState({user: response.data.events}))
     }
-
-    atob = (input) => {
-        let str = input.replace(/=+$/, '');
-        let output = '';
-
-        if (str.length % 4 == 1) {
-            throw new Error("'atob' failed: The string to be decoded is not correctly encoded.");
-        }
-        for (let bc = 0, bs = 0, buffer, i = 0;
-             buffer = str.charAt(i++);
-
-             ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
-             bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0
-        ) {
-            buffer = chars.indexOf(buffer);
-        }
-
-        return output;
+    checkLogin = (user) => {
+        return axios.post(`https://react-native-chat.herokuapp.com/api/users`, user)
+            .then(response => {
+                if (response.status !== 200) {
+                    Alert.alert('Bad request.')
+                } else {
+                    return response.data.user
+                }
+            })
     }
 
     login = () => {
+
         const {userEmail, userPassword} = this.state
 
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -69,20 +63,25 @@ export default class Login extends Component {
         this.state.user.forEach((data) => {
             // alert(JSON.stringify( data));
             if (data.email === this.state.userEmail) {
-                var pass = atob(data.password)
-                alert(data.email === this.state.userEmail, "pass", pass, this.state.userPassword)
-
-
+                alert(data.password === this.state.userPassword)
                 if (data.email === this.state.userEmail) {
+
+                    alert(data.password === this.state.userPassword)
+                    let userData = user = {
+                        email: this.state.email,
+                            password: this.state.password
+                    }
+                    checkLogin(userData).then(user => this.setState({registerUser: value}))
+
                     const {navigate} = this.props.navigation;
-                    this.setState({redirect: "Chat"});
+                    this.setState({registered: true});
                     this.props.navigation.navigate('Chat')
                 } else {
                     alert("Incorrect email address or password. please try again");
-                    this.setState({redirect: "Login"});
+                    this.props.navigation.navigate('Login')
                 }
             } else {
-                this.setState({redirect: "Register"});
+                alert("Incorrect email address or password. please try again");
                 this.props.navigation.navigate('Register')
             }
         })
@@ -98,7 +97,8 @@ export default class Login extends Component {
                 <TextInput
                     value={this.state.userEmail}
                     placeholder="Enter Email"
-                    style={{width: 200, margin: 10, borderColor: '#333', borderWidth: 1}}
+                    style={styles.textInput}
+
                     underlineColorAndroid="transparent"
                     onChangeText={userEmail => this.setState({userEmail})}
                 />
@@ -106,7 +106,7 @@ export default class Login extends Component {
                 <TextInput
                     value={this.state.userPassword}
                     placeholder="Enter Password"
-                    style={{width: 200, margin: 10, borderColor: '#333', borderWidth: 1}}
+                    style={styles.textInput}
                     underlineColorAndroid="transparent"
                     onChangeText={userPassword => this.setState({userPassword})}
 
@@ -114,7 +114,7 @@ export default class Login extends Component {
 
                 <TouchableOpacity
                     onPress={this.login}
-                    style={{width: 200, padding: 10, backgroundColor: 'orange', alignItems: 'center'}}>
+                    style={{padding: 10, width: 200, padding: 10, backgroundColor: 'orange', alignItems: 'center',borderRadius:5}}>
                     <Text style={{color: 'white'}}>Login</Text>
                 </TouchableOpacity>
 
@@ -130,8 +130,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
+        padding: 10,
+    },
+    textInput: {
+        padding: 10,
+        width: 200,
+        margin: 10,
+        borderColor: '#333',
+        borderWidth: 1,
+        borderRadius:5
+
     },
     btnText: {
+        borderRadius:5,
         color: '#000',
         fontSize: 20,
         fontWeight: 'bold'
