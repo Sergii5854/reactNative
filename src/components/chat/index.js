@@ -7,8 +7,11 @@ import {
     TextInput,
     Button,
     FlatList} from 'react-native';
+import io from 'socket.io-client'
+import axios from 'axios'
 
-export default class home extends Component{
+
+export default class Chat extends Component{
     static navigationOptions= ({navigation}) =>({
         title: 'Welcome',
     });
@@ -16,8 +19,27 @@ export default class home extends Component{
         super(props)
         this.state = {
             messagesArray: [],
-            text:''
+            text:'',
+            author:'',
+            createdAt:''
         }
+    }
+
+    componentDidMount () {
+        axios.get('https://react-native-chat.herokuapp.com/api/messages') // <--- your server here
+            .then(response => {
+                this.setState({
+                    messages: response.data['messages']
+                })
+            })
+
+        this.socket = socket = io('https://react-native-chat.herokuapp.com', { jsonp: false, transports: ['websocket'] }) // <--- your server here
+        socket.on('chat message', (msg) => {
+
+            let messages = this.state.messages;
+            messages.unshift(msg);
+            this.setState({messages});
+        })
     }
 
     onMessageSend () {
@@ -28,9 +50,12 @@ export default class home extends Component{
             })
             this.setState ({
                 messagesArray: messages,
-                text: ''
+                text: '',
+                author:   "Name",
+                createdAt:new Date()
             })
         }
+        this.socket.emit('chat message', messages)
     }
 
     render(){
