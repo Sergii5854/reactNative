@@ -24,7 +24,7 @@ export default class home extends Component{
         Linking.removeEventListener('url', this.props.handleOpenURL)
     }
 
-    loginWithFacebook () {
+    fb () {
         Linking.openURL('https://react-native-chat.herokuapp.com/auth/facebook/callback')
     }
 
@@ -48,17 +48,12 @@ export default class home extends Component{
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={this.loginWithFacebook}
-                    // onPress={this._fbAuth()}
+                    onPress={this.fb}
+
                     style={styles.btn3}>
                     <Text style={styles.btnText}>Facebook</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={()=> navigate('Chat')}
-                    // onPress={this._fbAuth()}
-                    style={styles.btn3}>
-                    <Text style={styles.btnText}>Chat</Text>
-                </TouchableOpacity>
+
             </View>
         );
     }
