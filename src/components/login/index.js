@@ -28,22 +28,12 @@ export default class Login extends Component {
             registerUser: '',
             registered: false
         }
-        this.checkLogin = this.checkLogin.bind(this)
+
     }
 
     componentDidMount() {
         axios.get('https://react-native-chat.herokuapp.com/api/users')
             .then(response => this.setState({user: response.data.events}))
-    }
-    checkLogin = (user) => {
-        return axios.post(`https://react-native-chat.herokuapp.com/api/users`, user)
-            .then(response => {
-                if (response.status !== 200) {
-                    Alert.alert('Bad request.')
-                } else {
-                    return response.data.user
-                }
-            })
     }
 
     login = () => {
@@ -63,16 +53,8 @@ export default class Login extends Component {
         this.state.user.forEach((data) => {
             // alert(JSON.stringify( data));
             if (data.email === this.state.userEmail) {
-                alert(data.password === this.state.userPassword)
+
                 if (data.email === this.state.userEmail) {
-
-                    alert(data.password === this.state.userPassword)
-                    let userData = user = {
-                        email: this.state.email,
-                            password: this.state.password
-                    }
-                    checkLogin(userData).then(user => this.setState({registerUser: value}))
-
                     const {navigate} = this.props.navigation;
                     this.setState({registered: true});
                     this.props.navigation.navigate('Chat')
@@ -80,10 +62,11 @@ export default class Login extends Component {
                     alert("Incorrect email address or password. please try again");
                     this.props.navigation.navigate('Login')
                 }
-            } else {
-                alert("Incorrect email address or password. please try again");
-                this.props.navigation.navigate('Register')
             }
+            // else {
+            //     alert("Incorrect email address or password. please try again");
+            //     this.props.navigation.navigate('Register')
+            // }
         })
     };
 
