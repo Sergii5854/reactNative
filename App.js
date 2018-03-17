@@ -13,6 +13,6 @@ const UsersManager = StackNavigator({
     Login: { screen: Login },
     Register: {screen: Register},
     Chat: {screen: Chat},
-})
+});
 
 export default UsersManager;

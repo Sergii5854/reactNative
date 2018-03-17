@@ -63,10 +63,7 @@ export default class Login extends Component {
                     this.props.navigation.navigate('Login')
                 }
             }
-            // else {
-            //     alert("Incorrect email address or password. please try again");
-            //     this.props.navigation.navigate('Register')
-            // }
+
         })
     };
 
@@ -97,7 +94,14 @@ export default class Login extends Component {
 
                 <TouchableOpacity
                     onPress={this.login}
-                    style={{padding: 10, width: 200, padding: 10, backgroundColor: 'orange', alignItems: 'center',borderRadius:5}}>
+                    style={{
+                        padding: 10,
+                        width: 200,
+                        padding: 10,
+                        backgroundColor: 'orange',
+                        alignItems: 'center',
+                        borderRadius: 5
+                    }}>
                     <Text style={{color: 'white'}}>Login</Text>
                 </TouchableOpacity>
 
@@ -121,11 +125,11 @@ const styles = StyleSheet.create({
         margin: 10,
         borderColor: '#333',
         borderWidth: 1,
-        borderRadius:5
+        borderRadius: 5
 
     },
     btnText: {
-        borderRadius:5,
+        borderRadius: 5,
         color: '#000',
         fontSize: 20,
         fontWeight: 'bold'

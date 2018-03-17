@@ -49,7 +49,6 @@ export default class home extends Component{
 
                 <TouchableOpacity
                     onPress={this.fb}
-
                     style={styles.btn3}>
                     <Text style={styles.btnText}>Facebook</Text>
                 </TouchableOpacity>

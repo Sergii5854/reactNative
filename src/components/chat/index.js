@@ -3,7 +3,6 @@ import {
     View,
     Text,
     StyleSheet,
-    ScrollView,
     TextInput,
     Button,
     FlatList
@@ -11,18 +10,17 @@ import {
 import io from 'socket.io-client'
 import axios from 'axios'
 
-
 export default class Chat extends Component {
     static navigationOptions = ({navigation}) => ({
         title: 'Welcome',
     });
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             messagesArray: [],
             text: ''
-        }
+        };
         this.onMessageSend = this.onMessageSend.bind(this)
     }
 
@@ -32,13 +30,11 @@ export default class Chat extends Component {
                 this.setState({
                     messagesArray: response.data['messages']
                 })
-            })
+            });
 
         this.socket = socket = io('https://react-native-chat.herokuapp.com', {jsonp: false, transports: ['websocket']})
         socket.on('chat message', (message) => {
-
-            let messagesArray = this.state.messagesArray
-            alert(JSON.stringify(message))
+            let messagesArray = this.state.messagesArray;
             messagesArray.unshift(message);
             this.setState({messagesArray});
         })
@@ -50,7 +46,7 @@ export default class Chat extends Component {
                 text: this.state.text,
                 author: "Name",
                 createdAt: new Date()
-            }
+            };
             this.socket.emit('chat message', message)
         }
         this.setState({text: ''})
@@ -88,7 +84,6 @@ export default class Chat extends Component {
                         title='Send Message'
                         onPress={() => this.onMessageSend()}/>
                 </View>
-
             </View>
 
         );
@@ -100,7 +95,14 @@ const styles = StyleSheet.create({
     },
     text: {
         fontWeight: 'bold',
-        fontSize: 15
+       margin: 20,
+        height: 40,
+        backgroundColor: 'rgba(0,0,0,0.2)',
+        padding: 10,
+        paddingLeft: 20,
+        fontSize: 14,
+        color: '#222',
+        borderRadius: 5
     },
     container: {
         display: 'flex',
@@ -127,22 +129,14 @@ const styles = StyleSheet.create({
     textInput: {
         height: 40,
         backgroundColor: '#FFF',
-
         padding: 10,
         color: '#222',
-
         borderColor: 'gray',
         borderWidth: 1
     },
-    text: {
-        height: 40,
-        backgroundColor: 'rgba(0,0,0,0.2)',
-        padding: 10,
-        fontSize: 14,
-        color: '#222',
-        borderRadius:5
-    },
+
     author: {
+        paddingRight: 20,
         color: 'grey',
         fontSize: 11,
         textAlign: 'right'
