@@ -3,28 +3,32 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity} from 'react-native';
-// import FBSDK, { LoginManager } from 'react-native-fbsdk'
+    TouchableOpacity,
+    Linking} from 'react-native';
+
 
 export default class home extends Component{
     static navigationOptions= ({navigation}) =>({
         title: 'Welcome',
     });
+    componentDidMount () {
+        Linking.addEventListener('url', this.props.handleOpenURL)
+        Linking.getInitialURL().then((url) => {
+            if (url && this.props.logout === true) {
+                this.props.handleOpenURL({ url })
+            }
+        })
+    }
 
-    // _fbAuth () {
-    //   LoginManager.logInWithReadPermissions(['public_profile']).then(
-    //     function(result) {
-    //       if (result.isCancelled) {
-    //         alert('Login cancelled');
-    //       } else {
-    //         alert('Login success with permissions: ' +result.grantedPermissions.toString());
-    //       }
-    //     },
-    //     function(error) {
-    //       alert('Login fail with error: ' + error);
-    //     }
-    //   );
-    // }
+    componentWillUnmount () {
+        Linking.removeEventListener('url', this.props.handleOpenURL)
+    }
+
+    loginWithFacebook () {
+        Linking.openURL('https://react-native-chat.herokuapp.com/auth/facebook/callback')
+    }
+
+
 
     render(){
         const {navigate} = this.props.navigation;
@@ -44,7 +48,7 @@ export default class home extends Component{
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={()=> navigate('Facebook')}
+                    onPress={this.loginWithFacebook}
                     // onPress={this._fbAuth()}
                     style={styles.btn3}>
                     <Text style={styles.btnText}>Facebook</Text>

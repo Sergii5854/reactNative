@@ -139,7 +139,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.2)',
         padding: 10,
         fontSize: 14,
-        color: '#222'
+        color: '#222',
+        borderRadius:5
     },
     author: {
         color: 'grey',
