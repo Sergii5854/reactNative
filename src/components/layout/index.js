@@ -49,6 +49,12 @@ export default class home extends Component{
                     style={styles.btn3}>
                     <Text style={styles.btnText}>Facebook</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={()=> navigate('Chat')}
+                    // onPress={this._fbAuth()}
+                    style={styles.btn3}>
+                    <Text style={styles.btnText}>Chat</Text>
+                </TouchableOpacity>
             </View>
         );
     }

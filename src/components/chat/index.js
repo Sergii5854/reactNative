@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     View,
     Text,
@@ -6,74 +6,74 @@ import {
     ScrollView,
     TextInput,
     Button,
-    FlatList} from 'react-native';
+    FlatList
+} from 'react-native';
 import io from 'socket.io-client'
 import axios from 'axios'
 
 
-export default class Chat extends Component{
-    static navigationOptions= ({navigation}) =>({
+export default class Chat extends Component {
+    static navigationOptions = ({navigation}) => ({
         title: 'Welcome',
     });
-    constructor (props) {
+
+    constructor(props) {
         super(props)
         this.state = {
             messagesArray: [],
-            text:'',
-            author:'',
-            createdAt:''
+            text: ''
         }
+        this.onMessageSend = this.onMessageSend.bind(this)
     }
 
-    componentDidMount () {
-        axios.get('https://react-native-chat.herokuapp.com/api/messages') // <--- your server here
+    componentDidMount() {
+        axios.get('https://react-native-chat.herokuapp.com/api/messages')
             .then(response => {
                 this.setState({
-                    messages: response.data['messages']
+                    messagesArray: response.data['messages']
                 })
             })
 
-        this.socket = socket = io('https://react-native-chat.herokuapp.com', { jsonp: false, transports: ['websocket'] }) // <--- your server here
+        this.socket = socket = io('https://react-native-chat.herokuapp.com', {jsonp: false, transports: ['websocket']})
         socket.on('chat message', (msg) => {
 
-            let messages = this.state.messages;
-            messages.unshift(msg);
-            this.setState({messages});
+            let messagesArray = this.state.messagesArray;
+            messagesArray.unshift(msg);
+            this.setState({messagesArray});
         })
     }
 
-    onMessageSend () {
-        if(this.state.text) {
-            let messages = this.state.messagesArray
-            messages.push({
-                'text': this.state.text
-            })
-            this.setState ({
-                messagesArray: messages,
+    onMessageSend() {
+        if (this.state.text) {
+            let message = {
                 text: '',
-                author:   "Name",
-                createdAt:new Date()
-            })
+                author: "Name",
+                createdAt: new Date()
+            }
+            this.socket.emit('chat message', message)
         }
-        this.socket.emit('chat message', messages)
+        this.setState({text: ''})
     }
 
-    render(){
+    render() {
         const {navigate} = this.props.navigation;
-        return(
+        alert(JSON.stringify(this.state.messagesArray))
+        return (
             <View style={styles.block}>
                 <View style={styles.container}>
                     <Text style={styles.pageName}>Welcome to the public chat room!</Text>
                 </View>
-                <ScrollView>
-                    {this.state.messagesArray.map((mes, index) => {
-                        return (
-                            <View>
-                                <Text style={styles.text}>{mes.text}</Text>
-                            </View>
-                        )
-                    })}
-                </ScrollView>
+                <FlatList
+                    keyExtractor={(item) => item._id}
+                    data={this.state.messagesArray}
+                    extraData={this.state}
+                    renderItem={({item}) =>
+                        <View>
+                            <Text style={styles.input}>{item.text}</Text>
+                            <Text style={styles.author}>{item.author} at {item.createdAt}</Text>
+                        </View>
+                    }
+                />
                 <View>
                     <TextInput
                         style={styles.textInput}
@@ -81,7 +81,10 @@ export default class Chat extends Component{
                         value={this.state.text}
                         onChangeText={(text) => this.setState({text})}/>
 
-                    <Button style={styles.message} title='Send Message' onPress={() => this.onMessageSend()}/>
+                    <Button
+                        style={styles.message}
+                        title='Send Message'
+                        onPress={() => this.onMessageSend()}/>
                 </View>
 
             </View>
@@ -94,19 +97,19 @@ const styles = StyleSheet.create({
         flex: 1
     },
     text: {
-        fontWeight:'bold',
+        fontWeight: 'bold',
         fontSize: 15
     },
     container: {
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'center'
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     pageName: {
         margin: 10,
-        fontWeight:'bold',
-        color:'#000',
-        textAlign:'center',
+        fontWeight: 'bold',
+        color: '#000',
+        textAlign: 'center',
         fontSize: 20
     },
     message: {
