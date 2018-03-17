@@ -35,10 +35,11 @@ export default class Chat extends Component {
             })
 
         this.socket = socket = io('https://react-native-chat.herokuapp.com', {jsonp: false, transports: ['websocket']})
-        socket.on('chat message', (msg) => {
+        socket.on('chat message', (message) => {
 
-            let messagesArray = this.state.messagesArray;
-            messagesArray.unshift(msg);
+            let messagesArray = this.state.messagesArray
+            alert(JSON.stringify(message))
+            messagesArray.unshift(message);
             this.setState({messagesArray});
         })
     }
@@ -46,7 +47,7 @@ export default class Chat extends Component {
     onMessageSend() {
         if (this.state.text) {
             let message = {
-                text: '',
+                text: this.state.text,
                 author: "Name",
                 createdAt: new Date()
             }
@@ -57,7 +58,7 @@ export default class Chat extends Component {
 
     render() {
         const {navigate} = this.props.navigation;
-        alert(JSON.stringify(this.state.messagesArray))
+
         return (
             <View style={styles.block}>
                 <View style={styles.container}>
@@ -69,8 +70,9 @@ export default class Chat extends Component {
                     extraData={this.state}
                     renderItem={({item}) =>
                         <View>
-                            <Text style={styles.input}>{item.text}</Text>
                             <Text style={styles.author}>{item.author} at {item.createdAt}</Text>
+                            <Text style={styles.text}>{item.text}</Text>
+
                         </View>
                     }
                 />
@@ -132,4 +134,16 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1
     },
+    text: {
+        height: 40,
+        backgroundColor: 'rgba(0,0,0,0.2)',
+        padding: 10,
+        fontSize: 14,
+        color: '#222'
+    },
+    author: {
+        color: 'grey',
+        fontSize: 11,
+        textAlign: 'right'
+    }
 });
