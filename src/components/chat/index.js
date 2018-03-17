@@ -52,8 +52,10 @@ export default class home extends Component{
                 <View>
                     <TextInput
                         style={styles.textInput}
+                        placeholter="Type you message"
                         value={this.state.text}
                         onChangeText={(text) => this.setState({text})}/>
+
                     <Button style={styles.message} title='Send Message' onPress={() => this.onMessageSend()}/>
                 </View>
 
@@ -91,5 +93,15 @@ const styles = StyleSheet.create({
         bottom: 0,
         right: 0,
         left: 0,
-    }
+    },
+    textInput: {
+        height: 40,
+        backgroundColor: '#FFF',
+
+        padding: 10,
+        color: '#222',
+
+        borderColor: 'gray',
+        borderWidth: 1
+    },
 });
